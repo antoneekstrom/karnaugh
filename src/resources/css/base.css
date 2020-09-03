@@ -1,0 +1,89 @@
+
+/*
+    Base theme colors.
+*/
+:root {
+    /* Properties */
+
+    /* Background */
+    --bg0: white;
+    --bg1: rgb(250,250,255);
+    --bg2: rgb(200, 200, 215, 1);
+
+    /* Darkened hover colors for different shades of background. */
+    --bg0h: rgb(240, 240, 245, 1);
+    --bg1h: rgb(230, 230, 245, 1);
+    --p0h: rgb(118, 149, 226);
+
+    /* Contrast */
+    --c0: #28284B;
+
+    /* Primary */
+    --p0: #4f78e0;
+    --p1: #E5E7FF;
+
+    /* Shadow */
+    --sh-x: 3px;
+    --sh-bg0: rgba(5, 5, 15, 0.16);
+    --sh-p1: rgba(79, 120, 224, 0.7);
+    --sh-err: rgba(228, 96, 96, 0.7);
+
+    /* States */
+    --inactive: #C3C4D9;
+    --err: rgb(219, 89, 89);
+
+    /* Containers */
+    --spacing: 1rem;
+}
+
+.theme-dark {
+    --bg0: rgb(15, 15, 15);
+    --bg1: rgb(5, 5, 5);
+    --bg2: black;
+
+    --bg0h: rgb(30, 30, 30);
+    --bg1h: rgb(20, 20, 20);
+
+    --c0: rgb(255, 255, 255);
+
+    --sh-x: 0;
+    --sh-bg0: rgba(5, 5, 15, 0.7);
+    --sh-p1: rgba(79, 120, 224, 0.7);
+
+    --inactive: #3c3c3f;
+}
+
+html, body {
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+    position: relative;
+}
+
+body {
+    box-sizing: border-box;
+    background-color: var(--bg1);
+}
+
+body, body > main, #root {
+    height: 100vh;
+    width: 100vw;
+
+    overflow: hidden;
+}
+
+.scrollbar::-webkit-scrollbar-track
+{
+    background-color: var(--bg0);
+}
+
+.scrollbar::-webkit-scrollbar
+{
+    width: 0.7rem;
+    background-color: red;
+}
+
+.scrollbar::-webkit-scrollbar-thumb
+{
+    background-color: var(--bg2);
+}

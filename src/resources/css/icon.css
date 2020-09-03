@@ -1,0 +1,76 @@
+
+.icon {
+    --col: var(--c0);
+    --hov: var(--bg0h);
+}
+
+.inactive i {
+    --col: var(--inactive);
+}
+
+.icon.primary, .primary > .icon {
+    --col: var(--bg0);
+    --hov: var(--bg0h);
+}
+
+button.icon-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+div.icon, i.icon {
+    color: var(--col);
+    user-select: none;
+}
+
+
+
+/* Windows Icons */
+
+i.icon.segoe {
+    font-family: 'Segoe MDL2 Assets';
+    font-style: normal;
+    color: var(--col);
+    font-size: 10px;
+}
+
+
+
+/* Material Icons */
+
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Material Icons'),
+      local('MaterialIcons-Regular'),
+      url(../icons/MaterialIcons-Regular.woff) format('woff'),
+      url(../icons/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;  /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+  
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+  
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+  
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+}

@@ -1,0 +1,58 @@
+
+@keyframes in {
+    from {
+        opacity: 0;
+        transform: translateY(-20px)
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0)
+    }
+}
+
+.context-menu {
+    position: fixed;
+    z-index: 3;
+}
+
+/* Appear Outer */
+
+.context-menu.roll-appear {
+    opacity: 0;
+    transform: translateY(-20px);
+    
+    transition: none;
+    will-change: transform, opacity;
+}
+
+.context-menu.roll-appear-active {
+    opacity: 1;
+    transform: translateY(0);
+
+    transition: opacity 200ms, transform 200ms;
+}
+
+/* Appear Inner */
+
+.context-menu.roll-appear .menu {
+    max-height: 0;
+    overflow: hidden;
+}
+
+.context-menu.roll-appear-active .menu {
+    max-height: 500px;
+    transition: max-height 500ms ease-out;
+}
+
+/* Exit */
+
+.context-menu.roll-exit {
+    opacity: 1;
+    transform: translateY(0);
+    transition: none;
+}
+
+.context-menu.roll-exit-active {
+    opacity: 0;
+    transition: transform 200ms, opacity 200ms;
+}

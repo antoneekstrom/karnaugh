@@ -1,0 +1,67 @@
+
+/*
+    Base style for container backgrounds.
+*/
+.paper {
+    /* Properties */
+    --shadow-col: var(--sh-bg0);
+    --blur-radius: 16px;
+    --border-radius: 15px;
+    --border-col: var(--p0);
+    --border-width: 2px;
+
+    /* Layout */
+    padding: 3rem 2rem;
+    box-sizing: border-box; /* might introduce problems */
+    
+    /* Style */
+    background-color: var(--bg0);
+    box-shadow: 0px var(--sh-x) var(--blur-radius) var(--shadow-col);
+    border-radius: var(--border-radius);
+    
+    transition: box-shadow 200ms;
+}
+
+.paper.no-padding {
+    padding: 0;
+}
+
+.paper.expand {
+    width: 100%;
+    height: 100%;
+}
+
+.paper.primary {
+    background-color: var(--p0);
+}
+
+/*
+    Container that is currently active/selected.
+*/
+.paper.active {
+    /* Properties */
+    --shadow-col: var(--sh-p1);
+    --blur-radius: 15px;
+
+    /* Style */
+    border: var(--border-col) solid var(--border-width);
+}
+
+/*
+    Container which has a stronger shadow.
+*/
+.paper.elevated, .paper.elevated-hover:hover {
+    /* Properties */
+    --shadow-col: rgba(5, 5, 20, 0.3);
+    --blur-radius: 30px;
+}
+
+.paper.hover {
+    transition: background-color 100ms;
+    transition: transform 100ms;
+}
+
+.paper.hover:hover {
+    background-color: var(--bg0h);
+    /* transform: scale(1.05); */
+}

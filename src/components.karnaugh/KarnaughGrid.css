@@ -1,0 +1,67 @@
+
+div.karnaugh {
+    --size: 20rem;
+
+    display: grid;
+
+    grid-template-rows: 1fr var(--size);
+    grid-template-columns: 1fr var(--size);
+
+    padding: 1rem 0 0 1rem;
+}
+
+ol.karnaugh {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+
+}
+
+.karnaugh .label.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.karnaugh .label.col {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.karnaugh .label > p {
+    color: var(--p0);
+    font-weight: 700;
+}
+
+ol.karnaugh li.cell {
+    display: grid;
+    place-items: center;
+}
+
+ol.karnaugh li.cell.active {
+    background-color: var(--bg1h);
+}
+
+ol.karnaugh li.cell p {
+    display: grid;
+    padding: 0.8rem;
+    width: 1em;
+    height: 1em;
+    place-items: center;
+
+    border-radius: 10rem;
+    cursor: pointer;
+    user-select: none;
+
+    transition: background-color 30ms;
+}
+
+ol.karnaugh li.cell p:hover {
+    background-color: var(--bg1h);
+}
+

@@ -1,0 +1,96 @@
+{
+  "main": {
+    "id": "c4858f5a9cb37f9b",
+    "type": "split",
+    "children": [
+      {
+        "id": "9148aab170e2cf69",
+        "type": "leaf",
+        "active": true,
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "Grid.md",
+            "mode": "source"
+          }
+        },
+        "group": "3c18b2c1e7a2ae61"
+      },
+      {
+        "id": "b54d5c2613dab3da",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "Grid.md",
+            "mode": "preview"
+          }
+        },
+        "group": "3c18b2c1e7a2ae61"
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "f0eac96a96e53fbd",
+    "type": "split",
+    "children": [
+      {
+        "id": "d0f03da4432b7a3d",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "dec3222dd7daf8e6",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "aaa80d9180b8e9b1",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "65e771bbefb235fa",
+    "type": "split",
+    "children": [
+      {
+        "id": "3aa879faad5555bf",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "50665eba4887c7dc",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Grid.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "lastOpenFiles": [
+    "Grid(w, h).md",
+    "Pseudo.md",
+    "createGrid(w, h).md",
+    "Main.md",
+    "Untitled.md"
+  ]
+}
