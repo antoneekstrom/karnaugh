@@ -1,66 +1,50 @@
-import React, { useState, useEffect, Fragment } from 'react';
-import * as Model from '../model';
+import React, { useEffect } from 'react';
 import './KarnaughGrid.css';
 import { classNames } from '../components.ui/Common';
-import { useInterval } from '../util';
-import Button from '../components.ui/Button';
-
-const LINE_ORDER = [0, 1, 3, 2];
+import { useDispatch } from 'react-redux';
+import { useStoreSelector } from '../store';
+import { setRects } from '../store/karnaugh';
+import { Karnaugh, findMinRects, LINE_ORDER, binaryString, Cell } from '../model/model';
 
 export interface KarnaughGridProps {
-  grid: Model.Karnaugh,
-  setGrid: (grid: Model.Karnaugh) => void;
+  grid: Karnaugh,
+  setGrid: (grid: Karnaugh) => void;
 }
 
 export default function KarnaughGrid(props: KarnaughGridProps) {
-  const {grid} = props;
+  const {grid, rects, active} = useStoreSelector(state => ({...state.karnaugh}));
+  const dispatch = useDispatch();
 
-  const [cube, setCube] = useState(Model.makeRect(Model.karnaugh(4), 2, 2, {x: 0, y: 0}));
+  useEffect(() => {
+    const rects = findMinRects(grid);
+    dispatch(setRects(rects));
+  }, [grid]);
+
+  const vars = grid.vars;
 
   return (
-    <Fragment>
-      <div style={{display: 'flex', flexDirection: 'column'}}>
-        <Button onClick={left}>left</Button>
-        <Button onClick={right}>right</Button>
-        <Button onClick={up}>up</Button>
-        <Button onClick={down}>down</Button>
-      </div>
-      <div className="karnaugh">
-        <div/>
-        <Labels dir="row"/>
-        <Labels dir="col"/>
-        <Grid {...props} />
-      </div>
-    </Fragment>
+    <div className="karnaugh">
+      <p>f</p>
+      <Labels dir="row" vars={vars[2] + vars[3]}/>
+      <Labels dir="col" vars={vars[0] + vars[1]} />
+      <Grid {...props} />
+    </div>
   )
 
-  function left() {
-    setCube(Model.moveRect(grid, cube, {x: -1, y: 0}));
-  }
-
-  function right() {
-    setCube(Model.moveRect(grid, cube, {x: 1, y: 0}));
-  }
-
-  function up() {
-    setCube(Model.moveRect(grid, cube, {x: 0, y: 1}));
-  }
-
-  function down() {
-    setCube(Model.moveRect(grid, cube, {x: 0, y: -1}));
-  }
-
-  function Labels(props: {dir: 'row' | 'col'}) {
+  function Labels(props: {dir: 'row' | 'col', vars: string}) {
     const { dir } = props;
     return (
       <div className={classNames({row: dir == 'row', col: dir == 'col'}, 'label')}>
-        {
-          LINE_ORDER.map(i => (
-            <p key={i}>
-              {Model.binaryString(i, 2)}
-            </p>
-          ))
-        }
+        <p>{props.vars}</p>
+        <div>
+          {
+            LINE_ORDER.map(i => (
+              <p key={i}>
+                {binaryString(i, 2)}
+              </p>
+            ))
+          }
+        </div>
       </div>
     )
   }
@@ -73,13 +57,12 @@ export default function KarnaughGrid(props: KarnaughGridProps) {
     )
   }
 
-  function CellItem(props: {cell: Model.Cell} & KarnaughGridProps) {
+  function CellItem(props: {cell: Cell} & KarnaughGridProps) {
     const {cell, grid} = props;
-    const {x, y} = Model.indexToPosition(grid, cell.index);
-    const pee = cube.includes(cell.index);
+    const isActive = active.includes(cell.index);
 
     return (
-      <li className={classNames({active: pee}, 'cell')} onClick={handleClick}>
+      <li className={classNames({active: isActive, one: cell.value}, 'cell')} onClick={handleClick}>
         <p>
           {cell.value ? '1' : '0'}
         </p>
@@ -87,7 +70,7 @@ export default function KarnaughGrid(props: KarnaughGridProps) {
     )
 
     function handleClick(e: React.MouseEvent<HTMLLIElement, MouseEvent>) {
-      const copy = Model.clone(grid);
+      const copy = {...grid}
       copy.cells[cell.index] = {index: cell.index, value: !cell.value};
       props.setGrid(copy);
     }

@@ -1,6 +1,4 @@
-import '../resources/css/base.css';
 import { CSSProperties } from 'react';
-
 
 /* Types */
 

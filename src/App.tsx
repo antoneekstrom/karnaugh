@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import configureStore from './store';
-import * as Typography from './components.ui/Typography';
+import configureStore, { createStoreEnhancer } from './store';
 import Frame from './components.ui/Frame';
-import KarnaughGrid from './components.karnaugh/KarnaughGrid';
-import { karnaugh } from './model/index';
-import Panel from './components.ui/Panel';
-import Paper from './components.ui/Paper';
 import KarnaughPage from './pages/KarnaughPage';
+import actionLogger from './middleware/actionlogger';
+
+import './components.ui/List';
+import './resources/css/style.css';
+import { Switch, Route } from 'react-router';
+import DebugPage from './pages/DebugPage';
 
 function init() {
-  Typography.loadStyle();
   return configureStore();
 }
 
@@ -18,7 +18,10 @@ function App() {
 
   return (
     <Frame history={history} store={store}>
-      <KarnaughPage/>
+      <Switch>
+        <Route path="/" component={KarnaughPage} />
+        <Route path="/debug" component={DebugPage} />
+      </Switch>
     </Frame>
   )
 }

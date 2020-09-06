@@ -5,7 +5,6 @@
   "main": "build/main.js",
   "keywords": [],
   "author": "",
-  "license": "",
   "scripts": {
     "clean": "rm public",
     "renderer:start": "parcel src/index.html -p 3000 --out-dir build --target electron --public-url \"./\"",
@@ -13,6 +12,7 @@
     "main:start": "concurrently \"electron .\" && \"npm run renderer:watch\"",
     "start": "concurrently --kill-others \"cross-env BROWSER=none npm run main:start\" \"npm run renderer:start\"",
     "web:start": "parcel src/index.html",
+    "web:build": "parcel build src/index.html --out-dir build --public-url ./",
     "renderer:build": "parcel build src/index.html --out-dir build --public-url ./",
     "main:build": "electron-builder",
     "build": "npm run clean && npm run main:build && npm run renderer:build"
@@ -21,6 +21,7 @@
     "@babel/core": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
     "@babel/preset-react": "^7.10.4",
+    "@svgr/parcel-plugin-svgr": "^5.4.0",
     "@types/react": "^16.9.41",
     "@types/react-dom": "^16.9.8",
     "@types/react-redux": "^7.1.9",
@@ -28,7 +29,6 @@
     "@types/react-router-dom": "^5.1.5",
     "@types/react-transition-group": "^4.4.0",
     "@types/sharp": "^0.25.1",
-    "@svgr/parcel-plugin-svgr": "^5.4.0",
     "concurrently": "^5.2.0",
     "connected-react-router": "^6.8.0",
     "cross-env": "^7.0.2",

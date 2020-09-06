@@ -1,0 +1,9 @@
+
+.toggle {
+    display: flex;
+    flex-direction: row;
+}
+
+.toggle input {
+    border: none;
+}

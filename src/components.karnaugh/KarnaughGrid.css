@@ -1,13 +1,14 @@
 
 div.karnaugh {
-    --size: 20rem;
+    --size: 35rem;
 
     display: grid;
+    grid-template-rows: min-content minmax(0, 1fr);
+    grid-template-columns: min-content minmax(0, 1fr);
+    gap: var(--spacing-m);
 
-    grid-template-rows: 1fr var(--size);
-    grid-template-columns: 1fr var(--size);
-
-    padding: 1rem 0 0 1rem;
+    width: var(--size);
+    height: var(--size);
 }
 
 ol.karnaugh {
@@ -19,49 +20,95 @@ ol.karnaugh {
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(4, 1fr);
 
+    background-color: var(--bg0);
+    border-radius: 1em;
+
+    overflow: hidden;
 }
 
-.karnaugh .label.row {
+div.karnaugh > p {
+    display: grid;
+    place-items: center;
+
+    color: var(--p0);
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.karnaugh .label {
+    position: relative;
+}
+
+.karnaugh .label > div {
     display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    background-color: var(--p0);
+    border-radius: 1em;
+
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+}
+
+.karnaugh .label.row > div {
     flex-direction: row;
-    justify-content: space-around;
+    padding: 1rem 2rem;
 }
 
-.karnaugh .label.col {
-    display: flex;
+.karnaugh .label.row > p {
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -200%);
+}
+
+.karnaugh .label.col > p {
+    top: 50%;
+    left: 0;
+    transform: translate(-200%, -50%);
+}
+
+.karnaugh .label.col > div {
     flex-direction: column;
-    justify-content: space-around;
+    padding: 2rem 1rem;
 }
 
 .karnaugh .label > p {
-    color: var(--p0);
+    position: absolute;
+    font-weight: 700;
+}
+
+.karnaugh .label > div > p {
+    color: var(--bg0);
     font-weight: 700;
 }
 
 ol.karnaugh li.cell {
     display: grid;
     place-items: center;
+    cursor: pointer;
 }
 
-ol.karnaugh li.cell.active {
-    background-color: var(--bg1h);
+ol.karnaugh li.cell:hover {
+    background-color: var(--bg3);
 }
 
 ol.karnaugh li.cell p {
     display: grid;
-    padding: 0.8rem;
-    width: 1em;
-    height: 1em;
     place-items: center;
 
-    border-radius: 10rem;
-    cursor: pointer;
+    width: 1em;
+    height: 1em;
+
     user-select: none;
-
-    transition: background-color 30ms;
+    font-weight: 700;
 }
 
-ol.karnaugh li.cell p:hover {
-    background-color: var(--bg1h);
+ol.karnaugh li.cell.one p {
+    color: var(--p0);
 }
 
+ol.karnaugh li.cell.active {
+    background-color: var(--p1);
+}

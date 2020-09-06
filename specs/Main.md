@@ -1,4 +1,0 @@
-# Karnaugh Solver
-
-### Links
-- [[Pseudo]]

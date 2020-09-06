@@ -4,8 +4,9 @@ import { ConnectedRouter } from 'connected-react-router';
 import { ICoreClasses, joinClassNames, classNames } from './Common';
 import { Store } from 'redux';
 import { History } from 'history';
-import './Frame.css';
 import { overlayContainerContext, OverlayContainer, IOverlayItem, IOverlayContainerContext } from './Overlay';
+import { Theme } from '../store/preferences';
+import { StoreState } from '../store';
 
 export interface IFrameProps extends ICoreClasses {
     store : Store;
@@ -27,10 +28,10 @@ function Content(props : PropsWithChildren<any>) {
  * Provides theme class.
  */
 function Wrapper(props : PropsWithChildren<any>) {
-    //const theme : ThemeVariant = useSelector((state : RootState) => state.user.preferences.theme);
-    //const classes = joinClassNames(`theme-${theme}`, 'frame');
+    const theme : Theme = useSelector((state : StoreState) => state.preferences.theme);
+    const classes = joinClassNames(`theme-${theme}`, 'frame');
     return (
-        <div className={joinClassNames(`theme-${"light"}`, 'frame')}>
+        <div className={classes}>
             {props.children}
         </div>
     )

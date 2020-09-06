@@ -1,0 +1,95 @@
+
+/*
+    Base theme colors.
+*/
+:root {
+    /* Properties */
+
+    /* Background */
+    --bg0: white;
+    --bg1: #fafaff;
+    --bg2: #F8F8FC;
+    --bg3: #ececf1;
+
+    /* Contrast */
+    --c0: #1e1e36;
+    --c1: #cfcfe0;
+
+    /* Primary */
+    --p0: #7695E2;
+    --p1: #E5E7FF;
+
+    /* Containers */
+    --spacing-s: 1rem;
+    --spacing-m: 2rem;
+    --spacing-l: 4rem;
+}
+
+.theme-dark {
+    --bg0: rgb(15, 15, 15);
+    --bg1: rgb(5, 5, 5);
+    --bg2: black;
+    --bg3: rgb(25, 25, 25);
+
+    --c0: rgb(255, 255, 255);
+    --c1: rgb(80, 80, 80);
+
+    --p1: #242c42;
+}
+
+html, body {
+    padding: 0;
+    margin: 0;
+    position: relative;
+    
+    color: var(--c0);
+    font-size: 10px;
+    font-family: 'Montserrat';
+}
+
+body {
+    box-sizing: border-box;
+    background-color: var(--bg2);
+}
+
+body, #root, .frame {
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+}
+
+.page {
+    background-color: var(--bg2);
+}
+
+h1, h2, h3, p, a {
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
+    color: var(--c0);
+}
+
+h1 {
+    font-size: 4.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+
+    margin-bottom: var(--spacing-s);
+}
+
+h2 {
+    font-size: 2.3rem;
+    font-weight: 700;
+
+    margin-bottom: var(--spacing-m);
+}
+
+h3 {
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+p {
+    font-size: 1.6rem;
+    font-weight: 500;
+}

@@ -3,8 +3,10 @@ import { updateState, makeDefaultActionCreator, makeActionCreator, defaultPayloa
 type Theme = 'light' | 'dark';
 type Preferences = typeof initialState;
 
+const THEME_STORAGE_KEY = 'theme';
+
 const initialState = {
-    theme: 'light' as Theme
+    theme: (window.localStorage.getItem(THEME_STORAGE_KEY) || 'light') as Theme
 }
 
 function reducer(state : Preferences = initialState, action : ActionTypes) : Preferences {
@@ -12,7 +14,8 @@ function reducer(state : Preferences = initialState, action : ActionTypes) : Pre
         default:
             return updateState(state, {});
         case 'SET_THEME':
-            return updateState(state, {name: action.payload});
+            window.localStorage.setItem(THEME_STORAGE_KEY, action.payload);
+            return updateState(state, {theme: action.payload});
     }
 }
 
