@@ -7,9 +7,14 @@
 - ### ~~Change variable names~~
 - ### ~~Remember configuration in localStorage~~
 - ### Format expression in different ways:
-  - ### `f = (xy)+(zw)+(yw)`
-  - ### `f(x, y, w, z) = x(w+z)` (same as the previous one?)
+  - ### Mathematic - `f = (xy)+(zw)+(yw)`
+  - ### Logical - `f(x, y, w, z) = x AND (Y NOT Z)`
+  - ### Programmatical - `f = x || (y && w)`
+- ### Implement "Don't Cares"
+- ### Turn expressions into diagram
+- ### Refactor !!
+- ### Improve UI
 
 # Bugs
 - ### ~~Expressions are incorrect~~
-- ### Expressions are still incorrect
+- ### ~~Expressions are still incorrect~~

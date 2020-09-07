@@ -32,15 +32,18 @@ export function rectExpression(k: Karnaugh, rects: Rect[], disjunctive = true): 
     return { rectVars, expression };
 }
 
-export function constantVars(k: Karnaugh, indices: number[]) {
+export function constantVars(k: Karnaugh, indices: number[]): string[] {
     let vars: boolean[] = []
     for (let i = 0; i < varCount(k); i++) {
         vars[i] = true;
     }
 
-    let prev = binaryArray(cellIndexToNumber(k, 0), 4);
-    for (const b of indices.map(i => binaryArray(cellIndexToNumber(k, i), 4))) {
-        vars = b.map((n, i) => prev[i] == n ? vars[i] : false);
+    const binIndices = indices.map(i => binaryArray(cellIndexToNumber(k, i), 4));
+    let prev = binIndices[0];
+    for (const b of binIndices) {
+        vars = b.map((n, i) => {
+            return prev[i] == n ? vars[i] : false;
+        });
         prev = b;
     }
 
