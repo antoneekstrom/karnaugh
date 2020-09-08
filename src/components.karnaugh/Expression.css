@@ -1,0 +1,45 @@
+
+.expression {
+    background-color: var(--bg0);
+    border-radius: 1em;
+    user-select: none;
+    text-align: center;
+    
+    padding: 1rem 6rem;
+    margin: 4rem 0;
+    padding-right: 1rem;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) min-content;
+    grid-template-rows: 1fr;
+}
+
+.expression button {
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 1rem;
+    box-sizing: border-box;
+
+    font-size: 1rem;
+    border-radius: 5em;
+
+    position: relative;
+}
+
+.expression button i {
+    color: var(--p0);
+}
+
+.expression button:hover {
+    background-color: var(--p1);
+}
+
+.expression > h2 {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+}

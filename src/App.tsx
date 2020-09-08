@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import configureStore, { createStoreEnhancer } from './store';
 import Frame from './components.ui/Frame';
-import KarnaughPage from './pages/KarnaughPage';
+import KarnaughPage from './pages/MainPage';
 import actionLogger from './middleware/actionlogger';
 
 import './components.ui/List';

@@ -1,20 +1,18 @@
 import { updateState, makeDefaultActionCreator } from "./storeutil";
-import { Karnaugh, Rect, karnaugh, VAR_NAMES } from '../model/model';
+import { Karnaugh, Rect, karnaugh, VAR_NAMES, ExpForm } from '../model/model';
 
 type KarnaughState = typeof initialState;
-type Form = 'disjunctive' | 'conjunctive';
 
 const GRID_STORAGE_KEY = 'grid';
 const FORM_STORAGE_KEY = 'form';
-//JSON.parse(window.localStorage.getItem(GRID_STORAGE_KEY))
 
 const initialState = {
-    grid: (karnaugh(VAR_NAMES)) as Karnaugh,
+    grid: getStoredGrid() as Karnaugh,
     rects: [] as Rect[],
     active: [] as number[],
     activeRect: undefined as Rect,
     settings: {
-        form: (window.localStorage.getItem(FORM_STORAGE_KEY) || 'disjunctive') as Form
+        form: (window.localStorage.getItem(FORM_STORAGE_KEY) || 'disjunctive') as ExpForm
     }
 }
 
@@ -32,7 +30,23 @@ function reducer(state : KarnaughState = initialState, action : ActionTypes) : K
         case 'SET_ACTIVE_RECT':
             return updateState(state, {activeRect: action.payload, active: action.payload ? action.payload.indices : []})
         case 'SET_FORM':
-            return updateState(state, {...state.settings, form: action.payload})
+            return updateState(state, {settings: {...state.settings, form: action.payload}})
+    }
+}
+
+function getStoredGrid(): Karnaugh {
+    if (new URL(window.location.href).searchParams.has('reset')) {
+        return karnaugh(VAR_NAMES);
+    }
+    try {
+        const k: Karnaugh = JSON.parse(window.localStorage.getItem(GRID_STORAGE_KEY));
+        if (!k) {
+            throw 'POO'
+        }
+        return k;
+    }
+    catch (err) {
+        return karnaugh(VAR_NAMES);
     }
 }
 
@@ -51,7 +65,7 @@ const SET_ACTIVE_RECT = 'SET_ACTIVE_RECT';
 export const setActiveRect = makeDefaultActionCreator<Rect, typeof SET_ACTIVE_RECT>(SET_ACTIVE_RECT, initialState.activeRect);
 
 const SET_FORM = 'SET_FORM';
-export const setForm = makeDefaultActionCreator<Form, typeof SET_FORM>(SET_FORM, initialState.settings.form);
+export const setForm = makeDefaultActionCreator<ExpForm, typeof SET_FORM>(SET_FORM, initialState.settings.form);
 
 export {
     reducer as karnaughReducer,

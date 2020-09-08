@@ -1,15 +1,10 @@
 import { List } from 'immutable';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../store';
 
 export function limitSize<T>(list : List<T>, max : number) : List<T> {
     const s = list.size - max;
     return list.slice(s < 0 ? 0 : s);
-}
-
-export function useRootSelector<T>(selector : (state : RootState) => T) {
-    return useSelector<RootState, T>(selector);
 }
 
 export function useAsync<T>(asyncFunc: () => Promise<T>, cleanup?: () => any) {
@@ -79,4 +74,21 @@ export function position(e : React.MouseEvent) : Position {
     x: e.clientX,
     y: e.clientY
   }
+}
+
+export type StateToggle = {
+    state: boolean
+    toggle: () => void
+}
+
+export function useToggle(initial: boolean): StateToggle {
+    const [state, setState] = useState(initial);
+    return {
+        toggle: () => setState(!state),
+        state
+    }
+}
+
+export function range(len: number) {
+    return [...Array.from(Array(len).keys())];
 }

@@ -18,27 +18,35 @@ export interface Rect {
     height: number
 }
 
-export interface Expression {
-    rectVars: {r: Rect, var: string}[]
-    expression: string
-}
+export type Expression = {r: Rect, var: string}[]
+export type ExpForm = 'disjunctive' | 'conjunctive';
 
 export const VAR_NAMES = ['x', 'y', 'z', 'w']
 export const LINE_ORDER = [0, 1, 3, 2]
 
-export function rectExpression(k: Karnaugh, rects: Rect[], disjunctive = true): Expression {
-    const rectVars = rects.map(r => ({var: `(${constantVars(k, r.indices).join(disjunctive ? '' : '+')})`, r}));
-    const expression = rectVars.map(v => v.var).join(disjunctive ? '+' : '');
-    return { rectVars, expression };
+export function toGrayCode(num: number, len = 4): string {
+    return binaryString(num ^ (num >> 1), len);
 }
 
-export function constantVars(k: Karnaugh, indices: number[]): string[] {
+export function expJoinCharacter(f: ExpForm) {
+    return f == 'disjunctive' ? '+' : ''
+}
+
+export function expToString(exp: Expression, f: ExpForm): string {
+    return exp.map(v => v.var).join(expJoinCharacter(f));
+}
+
+export function rectExpression(k: Karnaugh, rects: Rect[], f: ExpForm): Expression {
+    return rects.map(r => ({var: `(${constantVars(k, r.indices).map(rv => rv.var + (rv.value == 1 ? '' : "'")).join(expJoinCharacter(f))})`, r}));
+}
+
+export function constantVars(k: Karnaugh, indices: number[]): {value: number, var: string}[] {
     let vars: boolean[] = []
     for (let i = 0; i < varCount(k); i++) {
         vars[i] = true;
     }
 
-    const binIndices = indices.map(i => binaryArray(cellIndexToNumber(k, i), 4));
+    const binIndices = indices.map(i => binaryArray(cellIndexToNumber(k, i), varCount(k)));
     let prev = binIndices[0];
     for (const b of binIndices) {
         vars = b.map((n, i) => {
@@ -47,7 +55,9 @@ export function constantVars(k: Karnaugh, indices: number[]): string[] {
         prev = b;
     }
 
-    return vars.map((v, i) => v ? k.vars[i] : undefined).filter(v => v != undefined);
+    
+    const arr= vars.map((v, i) => v ? {value: prev[i], var: k.vars[i]} : undefined).filter(v => v != undefined);
+    return arr;
 }
 
 export function findMinRects(k: Karnaugh, value: boolean = true): Rect[] {
@@ -149,18 +159,26 @@ export function addPos(a: Position, b: Position) {
 
 export function cellIndexToNumber(k: Karnaugh, index: number) {
     const {x, y} = indexToPosition(k, index);
-    return Number.parseInt(binaryString(LINE_ORDER[y], 2) + binaryString(LINE_ORDER[x], 2), 2);
+    return Number.parseInt(toGrayCode(y).slice(2, 4) + toGrayCode(x).slice(2, 4), 2);
+}
+
+export function splitVars(k: Karnaugh): [string[], string[]] {
+    const varsX = k.vars.slice(0, Math.floor(k.vars.length / 2));
+    const varsY = k.vars.slice(varsX.length);
+    return [varsX, varsY];
 }
 
 export function karnaugh(vars: string[]) : Karnaugh {
     let cells: Cell[] = []
     const varCount = vars.length;
+    const k = { cells, vars };
+    const [x, y] = splitVars(k);
 
-    for (let i = 0; i < varCount * varCount; i++) {
+    for (let i = 0; i < Math.pow(2, x.length) * Math.pow(2, y.length); i++) {
         cells[i] = {index: i, value: false}
     }
 
-    return { cells, vars }
+    return k
 }
 
 export function indexToPosition(k: Karnaugh, index: number): Position {
@@ -181,19 +199,23 @@ export function getCellByIndex(k: Karnaugh, index: number) : Cell {
 
 export function wrapPosition(k: Karnaugh, pos: Position): Position {
     const wrapped: Position = {...pos};
+    const [varsX, varsY] = splitVars(k);
+    const vcx = Math.pow(2, varsX.length);
+    const vcy = Math.pow(2, varsY.length);
+
 
     if (wrapped.x >= varCount(k)) {
-        wrapped.x = wrapped.x % varCount(k);
+        wrapped.x = wrapped.x % vcx;
     }
     else if (wrapped.x < 0) {
-        wrapped.x = varCount(k) + (wrapped.x % varCount(k))
+        wrapped.x = vcx + (wrapped.x % vcx)
     }
 
-    if (wrapped.y >= varCount(k)) {
-        wrapped.y = wrapped.y % varCount(k);
+    if (wrapped.y >= vcy) {
+        wrapped.y = wrapped.y % vcy;
     }
     else if (wrapped.y < 0) {
-        wrapped.y = varCount(k) + (wrapped.y % varCount(k))
+        wrapped.y = vcy + (wrapped.y % vcy)
     }
 
     return wrapped;

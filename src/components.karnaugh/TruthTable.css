@@ -1,0 +1,57 @@
+
+.truth-table {
+    --varNum: 4;
+    overflow: hidden;
+}
+
+.truth-table ol.list {
+    background-color: var(--bg0);
+    padding: 1rem 2rem;
+    border-radius: 0 0 1em 1em;
+    box-sizing: border-box;
+}
+
+.table-header > p {
+    color: var(--bg0);
+}
+
+.truth-table ol > li, .table-header {
+    display: grid;
+    grid-template-columns: repeat(calc(1 + var(--varNum)), 1fr);
+    grid-template-rows: minmax(0, 1fr);
+}
+
+.table-header {
+    background-color: var(--p0);
+    padding: 1rem 2rem;
+    border-radius: 1em 1em 0 0;
+}
+
+.truth-table ol > li {
+    padding: 0;
+    margin-bottom: 0.5rem;
+}
+
+.truth-table ol > li > p, .table-header > p {
+    display: grid;
+    place-items: center;
+
+    min-width: 4rem;
+    min-height: 3.5rem;
+
+    font-weight: 700;
+}
+
+.truth-table ol > li.one {
+    background-color: var(--p1);
+    border-radius: 1em;
+}
+
+.truth-table ol > li.one > p:last-child {
+    color: var(--p0);
+}
+
+.truth-table ol > li .f {
+    cursor: pointer;
+    user-select: none;
+}

@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, CSSProperties } from 'react';
 import './KarnaughGrid.css';
 import { classNames } from '../components.ui/Common';
 import { useDispatch } from 'react-redux';
 import { useStoreSelector } from '../store';
 import { setRects } from '../store/karnaugh';
-import { Karnaugh, findMinRects, LINE_ORDER, binaryString, Cell } from '../model/model';
+import { Karnaugh, findMinRects, LINE_ORDER, binaryString, Cell, toGrayCode, splitVars } from '../model/model';
+import { range } from '../util';
 
 export interface KarnaughGridProps {
   grid: Karnaugh,
@@ -12,7 +13,7 @@ export interface KarnaughGridProps {
 }
 
 export default function KarnaughGrid(props: KarnaughGridProps) {
-  const {grid, rects, active} = useStoreSelector(state => ({...state.karnaugh}));
+  const {grid, active} = useStoreSelector(state => ({...state.karnaugh}));
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,27 +21,28 @@ export default function KarnaughGrid(props: KarnaughGridProps) {
     dispatch(setRects(rects));
   }, [grid]);
 
-  const vars = grid.vars;
+  const [varsX, varsY] = splitVars(grid);
 
   return (
-    <div className="karnaugh">
+    <div className="karnaugh" style={{'--varsX': Math.pow(2, varsX.length), '--varsY': Math.pow(2, varsY.length)} as CSSProperties}>
       <p>f</p>
-      <Labels dir="row" vars={vars[2] + vars[3]}/>
-      <Labels dir="col" vars={vars[0] + vars[1]} />
+      <Labels dir="row" vars={varsX}/>
+      <Labels dir="col" vars={varsY} />
       <Grid {...props} />
     </div>
   )
 
-  function Labels(props: {dir: 'row' | 'col', vars: string}) {
+  function Labels(props: {dir: 'row' | 'col', vars: string[]}) {
     const { dir } = props;
+
     return (
       <div className={classNames({row: dir == 'row', col: dir == 'col'}, 'label')}>
-        <p>{props.vars}</p>
+        <p>{props.vars.join('')}</p>
         <div>
           {
-            LINE_ORDER.map(i => (
+            range(Math.pow(2, props.vars.length)).map(i => (
               <p key={i}>
-                {binaryString(i, 2)}
+                {toGrayCode(i, Math.round(props.vars.length))}
               </p>
             ))
           }
