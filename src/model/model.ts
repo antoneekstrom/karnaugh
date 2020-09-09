@@ -4,7 +4,7 @@ export type Position = {x: number, y: number}
 
 export interface Cell {
     index: number;
-    value: boolean;
+    value: CellValue;
 }
 
 export interface Karnaugh {
@@ -18,11 +18,23 @@ export interface Rect {
     height: number
 }
 
+export type CellValue = 1 | 0 | '-';
 export type Expression = {r: Rect, var: string}[]
 export type ExpForm = 'disjunctive' | 'conjunctive';
 
 export const VAR_NAMES = ['x', 'y', 'z', 'w']
 export const LINE_ORDER = [0, 1, 3, 2]
+
+export function changeCellValue(k: Karnaugh, cellIndex: number, value: CellValue): Karnaugh {
+    const next = {...k}
+
+    next.cells[cellIndex] = {
+      index: cellIndex,
+      value: value
+    };
+
+    return next;
+}
 
 export function toGrayCode(num: number, len = 4): string {
     return binaryString(num ^ (num >> 1), len);
@@ -33,6 +45,9 @@ export function expJoinCharacter(f: ExpForm) {
 }
 
 export function expToString(exp: Expression, f: ExpForm): string {
+    if (exp.length == 0) {
+        return 'f=0';
+    }
     return exp.map(v => v.var).join(expJoinCharacter(f));
 }
 
@@ -60,7 +75,7 @@ export function constantVars(k: Karnaugh, indices: number[]): {value: number, va
     return arr;
 }
 
-export function findMinRects(k: Karnaugh, value: boolean = true): Rect[] {
+export function findMinRects(k: Karnaugh, value: CellValue = 1): Rect[] {
     // find all possible rects
     const all = [
         ...findRects(k, makeRect(k, 4, 4), value),
@@ -101,7 +116,7 @@ export function findMinRects(k: Karnaugh, value: boolean = true): Rect[] {
     return min;
 }
 
-export function findRects(k: Karnaugh, rect: Rect, value: boolean): Rect[] {
+export function findRects(k: Karnaugh, rect: Rect, value: CellValue = 1): Rect[] {
     let r = {...rect};
     let rects = [];
 
@@ -109,7 +124,8 @@ export function findRects(k: Karnaugh, rect: Rect, value: boolean): Rect[] {
         for (let x = 0; x < varCount(k); x++) {    
             r = moveRect(k, r, {x: 1, y: 0});
             
-            const isFilled = k.cells.filter(c => r.indices.includes(c.index)).map(c => c.value).reduce((v, c) => v = c == value ? v : false, true);
+            const cells = k.cells.filter(c => r.indices.includes(c.index)).map(c => c.value);
+            const isFilled = cells.some(c => c != '-') && cells.every(c => c == value || c == '-');
             if (isFilled) {
                 rects.push(r);
             }
@@ -170,12 +186,11 @@ export function splitVars(k: Karnaugh): [string[], string[]] {
 
 export function karnaugh(vars: string[]) : Karnaugh {
     let cells: Cell[] = []
-    const varCount = vars.length;
     const k = { cells, vars };
     const [x, y] = splitVars(k);
 
     for (let i = 0; i < Math.pow(2, x.length) * Math.pow(2, y.length); i++) {
-        cells[i] = {index: i, value: false}
+        cells[i] = {index: i, value: 0}
     }
 
     return k

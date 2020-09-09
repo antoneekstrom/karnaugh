@@ -18,7 +18,7 @@ export default function Expression(props: {exp: Expression}) {
     <div className="expression">
       <h2>
         {
-          props.exp.length > 0 ? props.exp.map((v, i) => <Fragment key={i}>{i != 0 ? <span>{expJoinCharacter(settings.form)}</span> : undefined}<Part v={v}/></Fragment>) : 'f ='
+          props.exp.length > 0 ? props.exp.map((v, i) => <Fragment key={i}>{i != 0 ? <span>{expJoinCharacter(settings.form)}</span> : <span>f=</span>}<Part v={v}/></Fragment>) : 'f=0'
         }
       </h2>
       <button onClick={saveToClipboard}>
@@ -31,9 +31,6 @@ export default function Expression(props: {exp: Expression}) {
   function saveToClipboard() {
     if (navigator?.clipboard) {
       navigator.clipboard.writeText(expToString(props.exp, settings.form));
-    }
-    else {
-      document.execCommand('copy')
     }
     tooltip.toggle();
   }

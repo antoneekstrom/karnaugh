@@ -4,7 +4,7 @@ import { classNames } from '../components.ui/Common';
 import { useDispatch } from 'react-redux';
 import { useStoreSelector } from '../store';
 import { setRects } from '../store/karnaugh';
-import { Karnaugh, findMinRects, LINE_ORDER, binaryString, Cell, toGrayCode, splitVars } from '../model/model';
+import { Karnaugh, findMinRects, LINE_ORDER, binaryString, Cell, toGrayCode, splitVars, changeCellValue } from '../model/model';
 import { range } from '../util';
 
 export interface KarnaughGridProps {
@@ -64,17 +64,23 @@ export default function KarnaughGrid(props: KarnaughGridProps) {
     const isActive = active.includes(cell.index);
 
     return (
-      <li className={classNames({active: isActive, one: cell.value}, 'cell')} onClick={handleClick}>
+      <li
+        className={classNames({active: isActive, one: cell.value == 1}, 'cell')}
+        onClick={handlePrimaryClick}
+        onAuxClick={handleAuxClick}
+        onContextMenu={e => {console.log(e);}}>
         <p>
-          {cell.value ? '1' : '0'}
+          {cell.value == 0 ? '0' : cell.value}
         </p>
       </li>
     )
 
-    function handleClick(e: React.MouseEvent<HTMLLIElement, MouseEvent>) {
-      const copy = {...grid}
-      copy.cells[cell.index] = {index: cell.index, value: !cell.value};
-      props.setGrid(copy);
+    function handleAuxClick(e: React.MouseEvent<HTMLLIElement, MouseEvent>) {
+      props.setGrid(changeCellValue(grid, cell.index, 0));
+    }
+
+    function handlePrimaryClick() {
+      props.setGrid(changeCellValue(grid, cell.index, cell.value == 0 ? 1 : (cell.value == 1 ? '-' : (cell.value == '-' ? 0 : 1))));
     }
   }
 }
